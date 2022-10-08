@@ -25,8 +25,7 @@ instance MonadTransAnyCont b m => MonadAnyCont b (AnyContT m) where
   {-# INLINE anyContToM #-}
 
 instance Monad m => ScopeAnyCont (AnyContT m) where
-  scopeAnyCont = lift . AnyCont.runAnyContT' return
-  {-# INLINE scopeAnyCont #-}
+  scopeAnyCont a = lift (((\cont -> AnyCont.runAnyContT cont return)) a)
 
 
 instance (Monad m, MonadAnyCont b m) => MonadAnyCont b (StateT s m) where

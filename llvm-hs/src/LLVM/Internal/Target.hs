@@ -149,7 +149,7 @@ lookupTarget ::
   Maybe ShortByteString -- ^ arch
   -> ShortByteString -- ^ \"triple\" - e.g. x86_64-unknown-linux-gnu
   -> IO (Target, ShortByteString)
-lookupTarget arch triple = runAnyContT' return $ do
+lookupTarget arch triple = (\cont -> runAnyContT' return cont) $ do
   cErrorP <- alloca
   cNewTripleP <- alloca
   arch <- encodeM (maybe "" id arch)
@@ -437,7 +437,7 @@ newtype TargetLibraryInfo = TargetLibraryInfo (Ptr FFI.TargetLibraryInfo)
 
 -- | Look up a 'LibraryFunction' by its standard name
 getLibraryFunction :: TargetLibraryInfo -> ShortByteString -> IO (Maybe LibraryFunction)
-getLibraryFunction (TargetLibraryInfo f) name = runAnyContT' return $ do
+getLibraryFunction (TargetLibraryInfo f) name = (\cont -> runAnyContT' return cont) $ do
   libFuncP <- alloca :: AnyContT IO (Ptr FFI.LibFunc)
   name <- (encodeM name :: AnyContT IO CString)
   r <- decodeM =<< (liftIO $ FFI.getLibFunc f name libFuncP)
@@ -445,7 +445,7 @@ getLibraryFunction (TargetLibraryInfo f) name = runAnyContT' return $ do
 
 -- | Get a the current name to be emitted for a 'LibraryFunction'
 getLibraryFunctionName :: TargetLibraryInfo -> LibraryFunction -> IO ShortByteString
-getLibraryFunctionName (TargetLibraryInfo f) l = runAnyContT' return $ do
+getLibraryFunctionName (TargetLibraryInfo f) l = (\cont -> runAnyContT' return cont) $ do
   l <- encodeM l
   decodeM $ FFI.libFuncGetName f l
 
@@ -455,7 +455,7 @@ setLibraryFunctionAvailableWithName ::
   -> LibraryFunction
   -> ShortByteString -- ^ The function name to be emitted
   -> IO ()
-setLibraryFunctionAvailableWithName (TargetLibraryInfo f) libraryFunction name = runAnyContT' return $ do
+setLibraryFunctionAvailableWithName (TargetLibraryInfo f) libraryFunction name = (\cont -> runAnyContT' return cont) $ do
   name <- encodeM name
   libraryFunction <- encodeM libraryFunction
   liftIO $ FFI.libFuncSetAvailableWithName f libraryFunction name
@@ -465,6 +465,6 @@ withTargetLibraryInfo ::
   ShortByteString -- ^ triple
   -> (TargetLibraryInfo -> IO a)
   -> IO a
-withTargetLibraryInfo triple f = runAnyContT' return $ do
+withTargetLibraryInfo triple f = (\cont -> runAnyContT' return cont) $ do
   triple <- encodeM triple
   liftIO $ bracket (FFI.createTargetLibraryInfo triple) FFI.disposeTargetLibraryInfo (f . TargetLibraryInfo)

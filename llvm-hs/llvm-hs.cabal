@@ -3,8 +3,8 @@ name: llvm-hs
 version: 12.0.0
 license: BSD-3-Clause
 license-file: LICENSE
-author: Anthony Cowley, Stephen Diehl, Moritz Kiefer <moritz.kiefer@purelyfunctional.org>, Benjamin S. Scarlet
-maintainer: Anthony Cowley, Stephen Diehl, Moritz Kiefer <moritz.kiefer@purelyfunctional.org>
+author: Anthony Cowley, Stephen Diehl, Moritz Kiefer <moritz.kiefer@purelyfunctional.org>, Andrew Anderson <aanderso@tcd.ie>, Benjamin S. Scarlet
+maintainer: Anthony Cowley, Stephen Diehl, Moritz Kiefer <moritz.kiefer@purelyfunctional.org>, Andrew Anderson <aanderso@tcd.ie>
 copyright: (c) 2013 Benjamin S. Scarlet and Google Inc.
 homepage: http://github.com/llvm-hs/llvm-hs/
 bug-reports: http://github.com/llvm-hs/llvm-hs/issues

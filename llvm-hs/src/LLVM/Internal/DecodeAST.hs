@@ -83,7 +83,7 @@ newtype DecodeAST a = DecodeAST { unDecodeAST :: AnyContT (StateT DecodeState IO
   )
 
 runDecodeAST :: DecodeAST a -> IO a
-runDecodeAST d = flip evalStateT initialDecode . runAnyContT' return . unDecodeAST $ d
+runDecodeAST d = flip evalStateT initialDecode . (\cont -> runAnyContT' return cont) . unDecodeAST $ d
 
 localScope :: DecodeAST a -> DecodeAST a
 localScope (DecodeAST x) = DecodeAST (tweak x)
