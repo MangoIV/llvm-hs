@@ -204,8 +204,6 @@ uint64_t LLVM_Hs_getExpectedJITEvaluatedSymbolAddress(
         *errMsg = strdup(toString(symbol.takeError()).c_str());
         return 0;
     }
-    *errorMessage = strdup("undefined symbol");
-    return 0;
 }
 
 LLVMJITSymbolFlags_ LLVM_Hs_getExpectedJITEvaluatedSymbolFlags(

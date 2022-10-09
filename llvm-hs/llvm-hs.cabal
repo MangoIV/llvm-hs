@@ -71,7 +71,7 @@ library
   hs-source-dirs: src
 
   build-tool-depends:
-    hsc2hs:hsc2hs
+    , hsc2hs:hsc2hs
 
   ghc-options:
     -O2
